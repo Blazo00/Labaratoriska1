@@ -1,0 +1,74 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Add/Edit Event</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+
+<div xmlns:th="http://www.thymeleaf.org">
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading" th:text="${event.id == null ? 'Add Event' : 'Edit Event'}"></h1>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <form th:action="@{/events}" method="POST">
+                <input type="hidden" name="id" th:value="${event.id}" />
+
+                    <div class="form-group">
+                        <label for="name">Event Name</label>
+                        <input type="text"
+                               class="form-control"
+                               id="name"
+                               name="name"
+                               th:value="${event.name != null ? event.name : ''}"
+                               required
+                               placeholder="Enter event name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <input type="text"
+                               class="form-control"
+                               id="description"
+                               name="description"
+                               th:value="${event.description != null ? event.description : ''}"
+                               placeholder="Event description">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="popularityScore">Popularity Score</label>
+                        <input type="number"
+                               class="form-control"
+                               id="popularityScore"
+                               name="popularityScore"
+                               th:value="${event.popularityScore != null ? event.popularityScore : ''}"
+                               placeholder="Popularity score">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="locationId">Location</label>
+                        <select name="locationId" id="locationId" class="form-control">
+                            <option value="" disabled>Select a location</option>
+                            <option th:each="location : ${locations} "
+                                    th:value="${location.id}"
+                                    th:text="${location.name}"
+                                    th:selected="${event.location != null && event.location.id == location.id}"></option>
+                        </select>
+                    </div>
+
+                    <button id="submit" type="submit" class="btn btn-primary">Submit</button>
+                    <a type="button" class="btn btn-secondary" href="/events">Back</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
