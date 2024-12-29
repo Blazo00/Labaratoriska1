@@ -26,7 +26,6 @@ public class DataHolder {
 
     @PostConstruct
     public void init() {
-        // Initialize locations
         if (locationRepository.count() == 0) {
             locations = new ArrayList<>();
             locations.add(new Location(null, "Arena Boris Trajkovski", "Londonska", "5000", "Arena"));

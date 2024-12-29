@@ -4,6 +4,7 @@ import mk.finki.ukim.wp.lab.model.Event;
 import mk.finki.ukim.wp.lab.model.Location;
 import mk.finki.ukim.wp.lab.service.EventService;
 import mk.finki.ukim.wp.lab.service.LocationService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -44,6 +45,7 @@ public class EventController {
 
 
     @GetMapping("/add")
+    @PreAuthorize("hasRole('ADMIN')")
     public String showAddEventForm(Model model) {
         List<Location> locations = locationService.findAll();
         model.addAttribute("locations", locations);
@@ -52,6 +54,7 @@ public class EventController {
     }
 
     @GetMapping("/edit/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String showEditEventForm(@PathVariable Long id, Model model) {
         Event event = eventService.findById(id);
         if (event != null) {
@@ -65,12 +68,14 @@ public class EventController {
     }
 
     @GetMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String deleteEvent(@PathVariable Long id) {
         eventService.deleteById(id);
         return "redirect:/events";
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public String saveOrUpdateEvent(
             @RequestParam(required = false) Long id,
             @RequestParam String name,
